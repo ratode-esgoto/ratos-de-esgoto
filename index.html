@@ -6,7 +6,7 @@
     <title>RATOS DE ESGOTO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Special+Elite&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,9 +15,9 @@
         }
 
         body {
-            font-family: 'Orbitron', sans-serif;
-            background-color: #0a120a;
-            color: #d0e0d0;
+            font-family: 'Special Elite', 'Courier New', monospace;
+            background-color: #0a0f0a;
+            color: #b8b8a8;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,19 +25,22 @@
             overflow-y: auto;
             padding: 2rem 1rem;
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30"><text font-family="Arial" font-size="20" y="20">⚔️</text></svg>') 12 0, auto;
+            position: relative;
         }
 
         body::-webkit-scrollbar {
-            width: 4px;
+            width: 8px;
         }
 
         body::-webkit-scrollbar-track {
-            background: rgba(10, 20, 10, 0.3);
+            background: rgba(20, 25, 15, 0.5);
+            border-radius: 0;
         }
 
         body::-webkit-scrollbar-thumb {
-            background: rgba(80, 200, 80, 0.3);
-            border-radius: 10px;
+            background: rgba(80, 120, 80, 0.15);
+            border-radius: 0;
+            border: 1px dotted rgba(80, 120, 80, 0.2);
         }
 
         .background-glow {
@@ -46,11 +49,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 40%, #0a1a0a, #050a05 85%);
+            background: radial-gradient(circle at 30% 30%, #0a1a0a, #030803 95%);
             z-index: 0;
         }
 
-        #rain-canvas {
+        #star-rain-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -58,7 +61,7 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.25;
         }
 
         #particles-canvas {
@@ -69,42 +72,221 @@
             height: 100%;
             z-index: 2;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
         .content {
             position: relative;
             z-index: 10;
             text-align: center;
-            padding: 2rem;
-            max-width: 850px;
+            max-width: 800px;
             width: 100%;
-            background: rgba(8, 18, 8, 0.8);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(60, 180, 60, 0.15);
-            border-radius: 32px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.4);
-            animation: borderPulse 6s infinite alternate;
             margin: auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 20px 6px 20px 6px;
+            overflow: hidden;
+            border: 1px solid rgba(80, 120, 70, 0.08);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+            transform: rotate(0.2deg) scale(0.99);
+            transition: all 0.3s;
+            clip-path: polygon(
+                0% 0%,
+                100% 0%,
+                100% 85%,
+                98% 88%,
+                95% 85%,
+                92% 90%,
+                88% 86%,
+                84% 92%,
+                80% 87%,
+                76% 93%,
+                72% 88%,
+                68% 94%,
+                64% 89%,
+                60% 95%,
+                56% 90%,
+                52% 96%,
+                48% 91%,
+                44% 97%,
+                40% 92%,
+                36% 98%,
+                32% 93%,
+                28% 99%,
+                24% 94%,
+                20% 100%,
+                16% 95%,
+                12% 101%,
+                8% 96%,
+                4% 102%,
+                0% 97%
+            );
+        }
+
+        .image-container:hover {
+            transform: rotate(0deg) scale(1);
+            border-color: rgba(100, 160, 90, 0.1);
+            box-shadow: 0 0 60px rgba(20, 80, 20, 0.03);
+        }
+
+                .image-container {
+            
+            background: transparent; 
+        }
+
+        .image-container img {
+            width: 115%; 
+            height: auto;
+            max-height: 500px;
+            object-fit: cover; 
+            display: block;
+            background: transparent;
+            margin-left: -7.5%; 
+            filter: saturate(0.8) contrast(0.9) brightness(0.9);
+            transition: all 0.3s;
+        }
+
+        .content-box {
+            position: relative;
+            background: rgba(12, 18, 12, 0.88);
+            backdrop-filter: blur(2px);
+            padding: 2rem 1.8rem;
+            border-radius: 30px 8px 30px 8px;
+            box-shadow: 
+                0 0 60px rgba(0, 0, 0, 0.6),
+                inset 0 0 50px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(40, 80, 40, 0.02);
+            animation: borderPulse 10s infinite alternate;
+            transform: rotate(0.4deg) skew(-0.3deg);
+            border: 2px solid transparent;
+            border-image: repeating-linear-gradient(
+                45deg,
+                rgba(80, 120, 70, 0.08) 0px,
+                rgba(80, 120, 70, 0.08) 10px,
+                transparent 10px,
+                transparent 20px,
+                rgba(80, 120, 70, 0.04) 20px,
+                rgba(80, 120, 70, 0.04) 30px,
+                transparent 30px,
+                transparent 40px
+            ) 30;
+            clip-path: polygon(
+                0% 0%,
+                100% 0%,
+                100% 100%,
+                98% 97%,
+                95% 100%,
+                92% 96%,
+                88% 101%,
+                84% 97%,
+                80% 102%,
+                76% 98%,
+                72% 103%,
+                68% 99%,
+                64% 104%,
+                60% 100%,
+                56% 105%,
+                52% 101%,
+                48% 106%,
+                44% 102%,
+                40% 107%,
+                36% 103%,
+                32% 108%,
+                28% 104%,
+                24% 109%,
+                20% 105%,
+                16% 110%,
+                12% 106%,
+                8% 111%,
+                4% 107%,
+                0% 108%
+            );
+        }
+
+        .content-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 32px 10px 32px 10px;
+            background: repeating-linear-gradient(
+                45deg, 
+                transparent, 
+                transparent 20px,
+                rgba(80, 120, 70, 0.01) 20px,
+                rgba(80, 120, 70, 0.01) 21px
+            );
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .content-box .graffiti {
+            position: absolute;
+            font-family: 'Caveat', cursive;
+            color: rgba(80, 120, 70, 0.04);
+            font-size: 3rem;
+            pointer-events: none;
+            transform: rotate(-15deg);
+            z-index: 0;
+        }
+
+        .content-box .graffiti.g1 {
+            top: 10%;
+            left: 5%;
+            font-size: 2.5rem;
+            transform: rotate(-20deg);
+        }
+
+        .content-box .graffiti.g2 {
+            bottom: 15%;
+            right: 5%;
+            font-size: 3.5rem;
+            transform: rotate(25deg);
+        }
+
+        .content-box .graffiti.g3 {
+            top: 40%;
+            right: 8%;
+            font-size: 2rem;
+            transform: rotate(10deg);
+        }
+
+        .content-box .graffiti.g4 {
+            bottom: 30%;
+            left: 3%;
+            font-size: 2.8rem;
+            transform: rotate(-30deg);
         }
 
         @keyframes borderPulse {
-            0% { border-color: rgba(60, 180, 60, 0.1); box-shadow: 0 0 30px rgba(0, 0, 0, 0.4); }
-            100% { border-color: rgba(80, 220, 80, 0.4); box-shadow: 0 0 60px rgba(40, 200, 40, 0.15); }
+            0% { box-shadow: 0 0 40px rgba(0, 0, 0, 0.3); }
+            100% { box-shadow: 0 0 80px rgba(20, 80, 20, 0.02); }
         }
 
         h1 {
-            font-size: 2.8rem;
+            position: relative;
+            z-index: 1;
+            font-size: 2.4rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #80d080, #40a040, #80d080);
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #8aaa7a, #4a6a3a, #8aaa7a);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shineText 6s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(60, 180, 60, 0.1);
-            letter-spacing: 3px;
-            margin-bottom: 1.5rem;
+            animation: shineText 9s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(60, 140, 60, 0.02);
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
             min-height: 4rem;
+            transform: skew(-0.5deg) rotate(-0.3deg);
+            word-break: break-word;
         }
 
         @keyframes shineText {
@@ -114,134 +296,152 @@
         }
 
         .custom-widget {
-            background: rgba(10, 20, 10, 0.6);
-            border: 1px solid rgba(60, 180, 60, 0.2);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin: 0 0 1.5rem 0;
+            position: relative;
+            z-index: 1;
+            background: rgba(10, 16, 10, 0.5);
+            border: 1px dotted rgba(70, 120, 70, 0.06);
+            border-radius: 18px 4px 18px 4px;
+            padding: 1.2rem 1.5rem;
+            margin: 0 0 1.2rem 0;
             text-align: left;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
             transition: all 0.3s;
+            transform: rotate(-0.1deg);
+            backdrop-filter: blur(2px);
         }
 
         .custom-widget:hover {
-            border-color: rgba(80, 220, 80, 0.4);
-            box-shadow: 0 0 50px rgba(40, 200, 40, 0.08);
+            border-color: rgba(100, 160, 90, 0.1);
+            box-shadow: 0 0 40px rgba(20, 80, 20, 0.02);
+            transform: rotate(0.1deg) scale(1.003);
         }
 
         .widget-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(60, 180, 60, 0.1);
-            padding-bottom: 0.8rem;
-            margin-bottom: 1rem;
+            border-bottom: 1px dotted rgba(70, 120, 70, 0.06);
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .widget-header .server-name {
-            color: #80d080;
-            font-size: 1rem;
-            letter-spacing: 2px;
+            color: #6a8a5a;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
             font-weight: 700;
+            font-family: 'Special Elite', monospace;
+            text-transform: uppercase;
         }
 
         .widget-header .online-count {
-            color: #60c060;
-            font-size: 0.8rem;
+            color: #4a7a4a;
+            font-size: 0.7rem;
             letter-spacing: 1px;
-            background: rgba(60, 180, 60, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(60, 180, 60, 0.15);
+            background: rgba(40, 80, 40, 0.08);
+            padding: 4px 14px;
+            border-radius: 20px 4px 20px 4px;
+            border: 1px dotted rgba(60, 120, 60, 0.06);
+            font-family: 'Special Elite', monospace;
         }
 
         .widget-channels {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.2rem 0.8rem;
+            margin-bottom: 0.8rem;
         }
 
         .widget-channels span {
-            color: #80a080;
+            color: #5a7a4a;
             font-size: 0.65rem;
-            letter-spacing: 1px;
-            background: rgba(30, 50, 30, 0.3);
-            padding: 4px 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(60, 180, 60, 0.05);
+            letter-spacing: 0.5px;
+            background: rgba(20, 40, 20, 0.1);
+            padding: 3px 10px;
+            border-radius: 10px 2px 10px 2px;
+            border: 1px dotted rgba(60, 120, 60, 0.02);
+            font-family: 'Special Elite', monospace;
         }
 
         .widget-channels span:before {
             content: "# ";
-            color: #60a060;
+            color: #3a6a3a;
         }
 
         .widget-members {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.2rem 0.8rem;
             margin-top: 0.5rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid rgba(60, 180, 60, 0.06);
+            padding-top: 0.6rem;
+            border-top: 1px dotted rgba(60, 120, 60, 0.04);
         }
 
         .widget-members span {
-            color: #90b090;
+            color: #6a8a5a;
             font-size: 0.65rem;
-            letter-spacing: 1px;
-            background: rgba(20, 40, 20, 0.2);
-            padding: 3px 10px;
-            border-radius: 10px;
+            letter-spacing: 0.5px;
+            background: rgba(20, 40, 20, 0.05);
+            padding: 2px 10px;
+            border-radius: 8px 2px 8px 2px;
+            font-family: 'Special Elite', monospace;
         }
 
         .widget-members .member-online:before {
             content: "● ";
-            color: #60c060;
+            color: #4a8a4a;
             font-size: 0.5rem;
             vertical-align: middle;
         }
 
         .widget-members .member-idle:before {
             content: "● ";
-            color: #c0a040;
+            color: #a88a30;
             font-size: 0.5rem;
             vertical-align: middle;
         }
 
         .widget-members .member-offline:before {
             content: "○ ";
-            color: #405040;
+            color: #3a4a3a;
             font-size: 0.5rem;
             vertical-align: middle;
         }
 
         .server-name {
-            font-size: 1.2rem;
-            color: #80a080;
-            letter-spacing: 4px;
-            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+            color: #5a7a4a;
+            letter-spacing: 3px;
+            margin-bottom: 1.2rem;
             text-transform: uppercase;
             font-weight: 700;
-            text-shadow: 0 0 20px rgba(60, 180, 60, 0.05);
+            text-shadow: 0 0 20px rgba(40, 80, 40, 0.02);
+            font-family: 'Special Elite', monospace;
+            transform: skew(-0.3deg) rotate(-0.2deg);
         }
 
         .server-name span {
-            color: #60c060;
-            text-shadow: 0 0 20px rgba(60, 180, 60, 0.15);
+            color: #4a7a3a;
+            text-shadow: 0 0 20px rgba(40, 100, 40, 0.03);
         }
 
         .btn-duel {
+            position: relative;
+            z-index: 1;
             display: inline-block;
             background: transparent;
-            border: 1px solid rgba(60, 180, 60, 0.2);
-            color: #80d080;
-            padding: 14px 40px;
-            font-size: 1.2rem;
-            font-family: 'Orbitron', sans-serif;
+            border: 1px dotted rgba(70, 130, 70, 0.06);
+            color: #6a8a5a;
+            padding: 14px 34px;
+            font-size: 1rem;
+            font-family: 'Special Elite', monospace;
             font-weight: 700;
-            border-radius: 40px;
-            letter-spacing: 3px;
+            border-radius: 30px 6px 30px 6px;
+            letter-spacing: 2px;
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
@@ -249,14 +449,15 @@
             position: relative;
             overflow: hidden;
             margin-top: 16px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            animation: pulseGlow 2.5s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            animation: pulseGlow 4s ease-in-out infinite;
+            transform: rotate(-0.2deg) skew(-0.3deg);
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(60, 180, 60, 0.05), 0 0 30px rgba(60, 180, 60, 0.02); }
-            50% { box-shadow: 0 0 30px rgba(80, 220, 80, 0.15), 0 0 60px rgba(80, 220, 80, 0.08), 0 0 90px rgba(80, 220, 80, 0.04); }
-            100% { box-shadow: 0 0 15px rgba(60, 180, 60, 0.05), 0 0 30px rgba(60, 180, 60, 0.02); }
+            0% { box-shadow: 0 0 10px rgba(60, 140, 60, 0.01); }
+            50% { box-shadow: 0 0 30px rgba(80, 180, 80, 0.02), 0 0 60px rgba(60, 140, 60, 0.01); }
+            100% { box-shadow: 0 0 10px rgba(60, 140, 60, 0.01); }
         }
 
         .btn-duel::before {
@@ -266,9 +467,9 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(60, 180, 60, 0.05), transparent, rgba(80, 220, 80, 0.05), transparent);
-            animation: rotateBorder 8s linear infinite;
-            opacity: 0.3;
+            background: conic-gradient(from 0deg, transparent, rgba(60, 140, 60, 0.01), transparent, rgba(80, 180, 80, 0.01), transparent);
+            animation: rotateBorder 15s linear infinite;
+            opacity: 0.2;
         }
 
         @keyframes rotateBorder {
@@ -276,11 +477,11 @@
         }
 
         .btn-duel:hover {
-            background: rgba(60, 180, 60, 0.08);
-            color: #a0e0a0;
-            border-color: rgba(80, 220, 80, 0.3);
-            box-shadow: 0 0 40px rgba(60, 180, 60, 0.08);
-            transform: scale(1.02);
+            background: rgba(60, 140, 60, 0.02);
+            color: #7a9a6a;
+            border-color: rgba(80, 180, 80, 0.08);
+            box-shadow: 0 0 40px rgba(60, 140, 60, 0.01);
+            transform: scale(1.02) rotate(0.2deg) skew(0.3deg);
             animation-play-state: paused;
         }
 
@@ -290,6 +491,8 @@
         }
 
         .social-links {
+            position: relative;
+            z-index: 1;
             margin-top: 1.2rem;
             display: flex;
             justify-content: center;
@@ -298,100 +501,120 @@
         }
 
         .social-link {
-            color: #506050;
-            font-size: 0.7rem;
-            letter-spacing: 3px;
+            color: #3a5a3a;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
             text-decoration: none;
             text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Special Elite', monospace;
             transition: all 0.3s;
-            border: 1px solid rgba(60, 180, 60, 0.06);
+            border: 1px dotted rgba(60, 120, 60, 0.02);
             padding: 6px 14px;
-            border-radius: 20px;
+            border-radius: 14px 3px 14px 3px;
+            transform: rotate(-0.1deg);
         }
 
         .social-link:hover {
-            color: #80d080;
-            border-color: rgba(80, 220, 80, 0.2);
-            box-shadow: 0 0 30px rgba(60, 180, 60, 0.05);
-            transform: scale(1.05);
+            color: #6a8a5a;
+            border-color: rgba(80, 160, 80, 0.04);
+            box-shadow: 0 0 20px rgba(40, 80, 40, 0.01);
+            transform: scale(1.03) rotate(0.1deg);
         }
 
         .footer {
+            position: relative;
+            z-index: 1;
             margin-top: 1.5rem;
-            padding-top: 1.2rem;
-            border-top: 1px solid rgba(60, 180, 60, 0.06);
+            padding-top: 1rem;
+            border-top: 1px dotted rgba(60, 120, 60, 0.04);
             font-size: 0.7rem;
-            color: #405040;
+            color: #2a4a2a;
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1.8;
             min-height: 3rem;
+            font-family: 'Special Elite', monospace;
         }
 
         .footer .highlight {
-            color: #60a060;
-            letter-spacing: 3px;
+            color: #3a5a3a;
+            letter-spacing: 2px;
         }
 
         @media (max-width: 600px) {
-            h1 { font-size: 2rem; min-height: 3rem; }
-            .custom-widget { padding: 1rem; }
-            .widget-header .server-name { font-size: 0.8rem; }
-            .widget-header .online-count { font-size: 0.65rem; }
-            .server-name { font-size: 1rem; }
-            .btn-duel { padding: 10px 20px; font-size: 0.9rem; }
-            .social-link { font-size: 0.6rem; padding: 4px 10px; }
-            .footer { font-size: 0.55rem; }
+            h1 { font-size: 1.8rem; min-height: 3rem; }
+            .image-container img { max-height: 300px; }
+            .content-box { padding: 1.5rem 1rem; }
+            .custom-widget { padding: 0.8rem 1rem; }
+            .widget-header .server-name { font-size: 0.75rem; }
+            .widget-header .online-count { font-size: 0.55rem; }
+            .server-name { font-size: 0.8rem; }
+            .btn-duel { padding: 10px 18px; font-size: 0.8rem; }
+            .social-link { font-size: 0.5rem; padding: 4px 10px; }
+            .footer { font-size: 0.5rem; }
+            .content-box .graffiti { display: none; }
         }
     </style>
 </head>
 <body>
 
     <div class="background-glow"></div>
-    <canvas id="rain-canvas"></canvas>
+    <canvas id="star-rain-canvas"></canvas>
     <canvas id="particles-canvas"></canvas>
 
     <div class="content">
 
-        <h1 id="titulo"></h1>
-
-        <div class="custom-widget">
-            <div class="widget-header">
-                <span class="server-name">RATOS DE ESGOTO</span>
-                <span class="online-count">10 MEMBROS ONLINE</span>
-            </div>
-            <div class="widget-channels">
-                <span>bate-papo 1</span>
-                <span>bate-papo 2</span>
-                <span>bate-papo 3</span>
-                <span>musica 1</span>
-                <span>musica 2</span>
-                <span>musica 3</span>
-            </div>
-            <div class="widget-members">
-                <span class="member-online">Carl-bot</span>
-                <span class="member-online">Jockie Music</span>
-                <span class="member-online">Koya</span>
-                <span class="member-idle">Rato anônimo</span>
-                <span class="member-offline">Rato dorminhoco</span>
-            </div>
+        <div class="image-container">
+            <img id="imagemRato" src="https://i.pinimg.com/736x/99/c4/d4/99c4d49d18d6b1f808a35aa98c4cf8b7.jpg" alt="Ratos de Esgoto">
         </div>
 
-        <div class="server-name">
-            <span>RATOS DE ESGOTO</span>
-        </div>
+        <div class="content-box">
 
-        <a href="https://discord.gg/sHaECvHMXP" target="_self" class="btn-duel" id="btnDuel">
-            <span>INVOCAR DISCORD</span>
-        </a>
+            <span class="graffiti g1">✦</span>
+            <span class="graffiti g2">✧</span>
+            <span class="graffiti g3">✦</span>
+            <span class="graffiti g4">✧</span>
 
-        <div class="social-links">
-            <a href="https://www.youtube.com/channel/UCWD36eAq83hQOn5WQZSnrag" target="_blank" class="social-link">YOUTUBE</a>
-        </div>
+            <h1 id="titulo"></h1>
 
-        <div class="footer">
-            <span class="highlight" id="rodape"></span>
+            <div class="custom-widget">
+                <div class="widget-header">
+                    <span class="server-name">RATOS DE ESGOTO</span>
+                    <span class="online-count">10 MEMBROS ONLINE</span>
+                </div>
+                <div class="widget-channels">
+                    <span>bate-papo 1</span>
+                    <span>bate-papo 2</span>
+                    <span>bate-papo 3</span>
+                    <span>musica 1</span>
+                    <span>musica 2</span>
+                    <span>musica 3</span>
+                </div>
+                <div class="widget-members">
+                    <span class="member-online">Carl-bot</span>
+                    <span class="member-online">Jockie Music</span>
+                    <span class="member-online">Koya</span>
+                    <span class="member-idle">Rato anônimo</span>
+                    <span class="member-offline">Rato dorminhoco</span>
+                </div>
+            </div>
+
+            <div class="server-name">
+                <span>RATOS DE ESGOTO</span>
+            </div>
+
+            <a href="https://discord.gg/sHaECvHMXP" target="_self" class="btn-duel" id="btnDuel">
+                <span>INVOCAR DISCORD</span>
+            </a>
+
+            <div class="social-links">
+                <a href="https://www.youtube.com/channel/UCWD36eAq83hQOn5WQZSnrag" target="_blank" class="social-link">YOUTUBE</a>
+            </div>
+
+            <div class="footer">
+                <span class="highlight" id="rodape"></span>
+            </div>
+
         </div>
 
     </div>
@@ -403,9 +626,10 @@
 
         function digitarTitulo() {
             if (index < texto.length) {
+                const delay = Math.floor(Math.random() * 80) + 40;
                 titulo.textContent += texto.charAt(index);
                 index++;
-                setTimeout(digitarTitulo, 80);
+                setTimeout(digitarTitulo, delay);
             }
         }
         digitarTitulo();
@@ -416,13 +640,14 @@
 
         function digitarRodape() {
             if (indexRodape < textoRodape.length) {
+                const delay = Math.floor(Math.random() * 60) + 30;
                 rodape.textContent += textoRodape.charAt(indexRodape);
                 indexRodape++;
-                setTimeout(digitarRodape, 60);
+                setTimeout(digitarRodape, delay);
             }
         }
 
-        const canvasRain = document.getElementById('rain-canvas');
+        const canvasRain = document.getElementById('star-rain-canvas');
         const ctxRain = canvasRain.getContext('2d');
         let rainWidth, rainHeight;
         let drops = [];
@@ -434,43 +659,48 @@
         window.addEventListener('resize', resizeRain);
         resizeRain();
 
-        const chars = ['#', '~', '.', '`', "'", '=', '-'];
+        const stars = ['✦', '✧', '⋆', '✶', '✴'];
 
-        class RainDrop {
+        class StarDrop {
             constructor() {
                 this.x = Math.random() * rainWidth;
                 this.y = Math.random() * rainHeight - rainHeight;
-                this.char = chars[Math.floor(Math.random() * chars.length)];
-                this.size = Math.floor(Math.random() * 12) + 8;
-                this.speed = Math.random() * 2 + 1.5;
-                this.opacity = Math.random() * 0.4 + 0.2;
+                this.char = stars[Math.floor(Math.random() * stars.length)];
+                this.size = Math.floor(Math.random() * 18) + 10;
+                this.speed = Math.random() * 2.5 + 1;
+                this.opacity = Math.random() * 0.3 + 0.05;
+                this.wobble = Math.random() * 0.4 + 0.05;
+                this.wobbleOffset = Math.random() * 100;
             }
 
             update() {
                 this.y += this.speed;
+                this.x += Math.sin(this.y / 50 + this.wobbleOffset) * this.wobble;
                 if (this.y > rainHeight) {
                     this.y = -this.size;
                     this.x = Math.random() * rainWidth;
-                    this.char = chars[Math.floor(Math.random() * chars.length)];
-                    this.speed = Math.random() * 2 + 1.5;
-                    this.opacity = Math.random() * 0.4 + 0.2;
+                    this.char = stars[Math.floor(Math.random() * stars.length)];
+                    this.speed = Math.random() * 2.5 + 1;
+                    this.opacity = Math.random() * 0.3 + 0.05;
+                    this.wobble = Math.random() * 0.4 + 0.05;
+                    this.wobbleOffset = Math.random() * 100;
                 }
             }
 
             draw() {
-                ctxRain.fillStyle = `rgba(100, 200, 100, ${this.opacity})`;
-                ctxRain.font = `${this.size}px monospace`;
+                ctxRain.fillStyle = `rgba(180, 220, 180, ${this.opacity})`;
+                ctxRain.font = `${this.size}px "Courier New", monospace`;
                 ctxRain.fillText(this.char, this.x, this.y);
             }
         }
 
-        function initRain(count = 120) {
+        function initRain(count = 140) {
             drops = [];
             for (let i = 0; i < count; i++) {
-                drops.push(new RainDrop());
+                drops.push(new StarDrop());
             }
         }
-        initRain(140);
+        initRain(160);
 
         function animateRain() {
             ctxRain.clearRect(0, 0, rainWidth, rainHeight);
@@ -494,19 +724,19 @@
         window.addEventListener('resize', resizeParticles);
         resizeParticles();
 
-        const colors = ['#2a5a2a', '#3a6a3a', '#1a4a1a', '#4a7a4a', '#2a5a2a', '#3a7a3a', '#1a3a1a', '#4a6a4a'];
+        const colors = ['#142214', '#1a2a1a', '#0a1a0a', '#223222', '#162a16', '#1e2e1e', '#0e1e0e', '#2a3a2a'];
 
         class Particle {
             constructor() {
                 this.x = Math.random() * pWidth;
                 this.y = Math.random() * pHeight;
-                this.size = Math.floor(Math.random() * 6) + 3;
-                this.speedX = (Math.random() - 0.5) * 0.6;
-                this.speedY = (Math.random() - 0.5) * 0.6;
+                this.size = Math.floor(Math.random() * 5) + 2;
+                this.speedX = (Math.random() - 0.5) * 0.25;
+                this.speedY = (Math.random() - 0.5) * 0.25;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.4 + 0.1;
+                this.opacity = Math.random() * 0.25 + 0.03;
                 this.trail = [];
-                this.maxTrail = 3;
+                this.maxTrail = 5;
             }
 
             update() {
@@ -521,7 +751,7 @@
             draw() {
                 for (let i = 0; i < this.trail.length; i++) {
                     const pos = this.trail[i];
-                    const opacity = (i / this.trail.length) * this.opacity * 0.3;
+                    const opacity = (i / this.trail.length) * this.opacity * 0.15;
                     ctxParticles.fillStyle = this.color;
                     ctxParticles.globalAlpha = opacity;
                     ctxParticles.fillRect(pos.x - this.size / 2, pos.y - this.size / 2, this.size, this.size);
@@ -529,24 +759,24 @@
                 ctxParticles.globalAlpha = this.opacity;
                 ctxParticles.fillStyle = this.color;
                 ctxParticles.shadowColor = this.color;
-                ctxParticles.shadowBlur = 8;
+                ctxParticles.shadowBlur = 3;
                 ctxParticles.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
                 ctxParticles.shadowBlur = 0;
                 ctxParticles.globalAlpha = 1;
             }
         }
 
-        function initParticles(count = 200) {
+        function initParticles(count = 240) {
             particles = [];
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle());
             }
         }
-        initParticles(200);
+        initParticles(260);
 
         function animateParticles() {
             ctxParticles.clearRect(0, 0, pWidth, pHeight);
-            ctxParticles.fillStyle = 'rgba(10, 18, 10, 0.15)';
+            ctxParticles.fillStyle = 'rgba(6, 12, 6, 0.08)';
             ctxParticles.fillRect(0, 0, pWidth, pHeight);
             particles.forEach(p => {
                 p.update();
@@ -560,8 +790,8 @@
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const discordLink = this.href;
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => this.style.transform = 'scale(1)', 150);
+            this.style.transform = 'scale(0.95) rotate(0.5deg) skew(0.5deg)';
+            setTimeout(() => this.style.transform = 'scale(1) rotate(-0.2deg) skew(-0.3deg)', 150);
             setTimeout(() => {
                 window.location.href = discordLink;
             }, 250);
@@ -569,15 +799,15 @@
 
         document.addEventListener('click', function(e) {
             if (e.target.closest('.btn-duel')) return;
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 15; i++) {
                 const p = new Particle();
-                p.x = e.clientX + (Math.random() - 0.5) * 80;
-                p.y = e.clientY + (Math.random() - 0.5) * 80;
+                p.x = e.clientX + (Math.random() - 0.5) * 100;
+                p.y = e.clientY + (Math.random() - 0.5) * 100;
                 p.size = Math.floor(Math.random() * 8) + 2;
-                p.speedX = (Math.random() - 0.5) * 2;
-                p.speedY = (Math.random() - 0.5) * 2;
+                p.speedX = (Math.random() - 0.5) * 1.8;
+                p.speedY = (Math.random() - 0.5) * 1.8;
                 p.color = colors[Math.floor(Math.random() * colors.length)];
-                p.opacity = Math.random() * 0.5 + 0.2;
+                p.opacity = Math.random() * 0.4 + 0.05;
                 particles.push(p);
                 setTimeout(() => {
                     const index = particles.indexOf(p);
@@ -586,7 +816,7 @@
             }
         });
 
-        setTimeout(digitarRodape, 1200);
+        setTimeout(digitarRodape, 1600);
     </script>
 
 </body>
